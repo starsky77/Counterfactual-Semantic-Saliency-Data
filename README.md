@@ -1,11 +1,16 @@
-# Revealing the Gap in Human and VLM Scene Perception through Counterfactual Semantic Saliency
+# Revealing the Gap in Human and VLM Scene Description through Counterfactual Semantic Saliency （NeurIPS 2026）
 
-This repository contains the code and processed data needed to reproduce
-the figure and table in the submission.
+This repository contains the code and processed data needed to reproduce the figure in the main content of the paper.
 
-Counterfactual Image dataset is not needed to reproduce the results, if you want to check the image data we used for the paper, you can download the dataset from the following link:
+Counterfactual Image dataset itself is not needed to reproduce the results, if you want to check the image data we used for the paper, you can download the dataset from the following link:
 
-[Counterfactual Image dataset (Zenodo, anonymized preview link)](https://zenodo.org/records/20151292?preview=1&token=eyJhbGciOiJIUzUxMiIsImlhdCI6MTc3ODY0OTg3MCwiZXhwIjoxNzk2ODYwNzk5fQ.eyJpZCI6Ijg5NjQwMGEzLTY3YzMtNDI1ZC1iZDA2LWVlYmI3MzkyMTUwZCIsImRhdGEiOnt9LCJyYW5kb20iOiIzOGQwNjJiZThmZjczMGViYmY1ZDRkNDYxMjMzYjZlNiJ9.555ovV_fM1c0G57Ub3V_4AYu6XWRvQu2a8QDvOWHKtGWnLPDcKxjA0mb7ODZN1VbZJjYgfqaksmXcGKPymwZKg)
+## Counterfactual Image dataset 
+
+[Counterfactual Image dataset (Zenodo)](https://zenodo.org/records/20151292?preview=1&token=eyJhbGciOiJIUzUxMiIsImlhdCI6MTc3ODY0OTg3MCwiZXhwIjoxNzk2ODYwNzk5fQ.eyJpZCI6Ijg5NjQwMGEzLTY3YzMtNDI1ZC1iZDA2LWVlYmI3MzkyMTUwZCIsImRhdGEiOnt9LCJyYW5kb20iOiIzOGQwNjJiZThmZjczMGViYmY1ZDRkNDYxMjMzYjZlNiJ9.555ovV_fM1c0G57Ub3V_4AYu6XWRvQu2a8QDvOWHKtGWnLPDcKxjA0mb7ODZN1VbZJjYgfqaksmXcGKPymwZKg)
+
+## Human data for counterfactual and factual scene
+
+`Human Data/` is the source data for the human captions for counterfactual and original factual scenes.
 
 ## Quick start
 
@@ -37,6 +42,9 @@ to a single result in the paper:
 .
 ├── README.md                                          
 ├── reproduce.sh                                       # one-shot reproduction entry point
+│
+├── Human Data/                                        # source data for the human captions
+│   └── filename_caption_list.csv
 │
 ├── CSS_result/                                        # raw scoring runs (input data)
 │   └── Cache/
@@ -89,4 +97,15 @@ to a single result in the paper:
 | 7a    | `fig_create/plot_kendall_top1_acc_bars.py`                                | `results/kendall_top1_acc/kendall_top1_acc_bars.{png,pdf}`.                                                                                              | **Figure 4**   |
 | 7b    | `fig_create/plot_kendall_mean_tau_bars.py`                                | `results/kendall_mean_tau/kendall_mean_tau_bars.{png,pdf}`.                                                                                              | **Figure 4**   |
 | 7c    | `Src/factor_analysis/plot_cache_vs_human_correlations.py`                 | `results/correlation_bars/correlation_{mask_area_pixels, center_distance_pixels, person_bin, max_gbvs}.{png,pdf}`.                                       | **Figure 5**   |
+
+## Citation
+
+```bibtex
+@article{wen2026revealing,
+  title={Revealing the Gap in Human and VLM Scene Perception through Counterfactual Semantic Saliency},
+  author={Wen, Ziqi and Madinei, Parsa and Eckstein, Miguel P},
+  journal={arXiv preprint arXiv:2605.13047},
+  year={2026}
+}
+```
 
