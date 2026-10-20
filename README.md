@@ -2,11 +2,13 @@
 
 This repository contains the code and processed data needed to reproduce the figure in the main content of the paper.
 
-Counterfactual Image dataset itself is not needed to reproduce the results, if you want to check the image data we used for the paper, you can download the dataset from the following link:
+Counterfactual Image dataset itself is not needed to reproduce the results, if you want to check the image data we used for the paper, you can download the dataset from the following link (huggingface or Zenodo):
 
 ## Counterfactual Image dataset 
 
-[Counterfactual Image dataset (Zenodo)](https://zenodo.org/records/20151292?preview=1&token=eyJhbGciOiJIUzUxMiIsImlhdCI6MTc3ODY0OTg3MCwiZXhwIjoxNzk2ODYwNzk5fQ.eyJpZCI6Ijg5NjQwMGEzLTY3YzMtNDI1ZC1iZDA2LWVlYmI3MzkyMTUwZCIsImRhdGEiOnt9LCJyYW5kb20iOiIzOGQwNjJiZThmZjczMGViYmY1ZDRkNDYxMjMzYjZlNiJ9.555ovV_fM1c0G57Ub3V_4AYu6XWRvQu2a8QDvOWHKtGWnLPDcKxjA0mb7ODZN1VbZJjYgfqaksmXcGKPymwZKg)
+[Counterfactual Image dataset (huggingface)](https://huggingface.co/datasets/starsky77/counterfactual-semantic-saliency)
+
+[Counterfactual Image dataset (Zenodo)](https://zenodo.org/records/20151292)
 
 ## Human data for counterfactual and factual scene
 
