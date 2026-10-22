@@ -1,0 +1,11 @@
+# Extra dependencies for evaluating your own model (Src/custom_model/).
+# Versions below are the ones the scoring code was verified with.
+torch==2.6.0
+transformers==4.48.3
+sentence-transformers==4.0.2
+datasets==3.5.0
+openai>=1.65
+pillow
+tqdm
+numpy
+pandas

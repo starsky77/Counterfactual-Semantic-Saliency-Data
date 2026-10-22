@@ -26,6 +26,46 @@ The full pipeline takes roughly **10 minutes** on a modern workstation (CPU mode
 When it finishes, every generated results (final CSVs and
 figures) is grouped under `./results/`.
 
+## Evaluate your own model
+
+To compare your own VLM with the paper's models, run three scripts from `Src/custom_model/`:
+
+```bash
+pip install -r Src/custom_model/requirements_custom.txt
+
+# 1. Describe every image of the HuggingFace dataset (5 samples per image, fixed prompt)
+python Src/custom_model/generate_descriptions.py --model-name my_model --backend <openai|hf|custom> ...
+
+# 2. Score the descriptions -> CSS_result/Cache/<timestamp>my_model/scored_descriptions_<timestamp>.csv
+python Src/custom_model/score_descriptions.py --model-name my_model \
+    --raw CSS_result/custom_runs/my_model/raw_descriptions.jsonl
+
+# 3. Plot Top-1 Accuracy and mean Kendall-τ for your model next to the paper's models
+bash Src/custom_model/eval_custom_model.sh
+```
+
+The figures are written to `results/custom_model/` (`kendall_top1_acc_bars` and `kendall_mean_tau_bars`). The paper results are not modified. Steps 1 and 2 can also be run together with `bash Src/custom_model/run_custom_model.sh my_model --backend ...`.
+
+The prompt is fixed in [`Src/custom_model/prompt.py`](Src/custom_model/prompt.py) and must not be changed: *"Make your best guess of what might be happening in this scene in one sentence. Avoid mentioning objects that do not aid in understanding the context of the scene."*
+
+### Three ways to load your model
+
+```bash
+# (a) openai: any OpenAI-compatible API (OpenAI, Gemini, a local vLLM server, ...)
+python Src/custom_model/generate_descriptions.py --model-name gpt-4o \
+    --backend openai --model gpt-4o [--base-url http://localhost:8000/v1] --workers 8
+
+# (b) hf: a local HuggingFace transformers vision-language model
+python Src/custom_model/generate_descriptions.py --model-name my_local_vlm \
+    --backend hf --model <hf-model-id>
+
+# (c) custom: your own Python function  generate(image: PIL.Image, prompt: str, n: int) -> list[str]
+python Src/custom_model/generate_descriptions.py --model-name my_model \
+    --backend custom --custom path/to/my_model.py:generate
+```
+
+If you already have descriptions from your own pipeline, skip step 1. Put them in a CSV with columns `img_fn, Original_Caption, Caption`, formatted like `CSS_result/Cache/20260428_142302claude-haiku-4-5/scored_descriptions_20260428_142302.csv`. Then score it with `score_descriptions.py --model-name my_model --from-csv my_captions.csv`. Do not use "human" in `--model-name`.
+
 ## Mapping to the paper
 
 Everything inside `results/` is organized so that each subfolder maps
@@ -49,11 +89,12 @@ to a single result in the paper:
 │   └── filename_caption_list.csv
 │
 ├── CSS_result/                                        # raw scoring runs (input data)
-│   └── Cache/
-│       ├── human_filtered_10/
-│       │   ├── scene_description_human_filtered_all_10_with_mean_similarity_score.csv  # mean_similarity_score here is the mean of first 5 subjects (used for human-human consistency)
-│       │   └── scene_description_human_filtered_all_10_mean_distance_mean_of_10.csv  # mean_similarity_score here is the mean of 10 subjects
-│       └── <model_run>/scored_descriptions_*.csv      # 19 VLM runs, one CSV each
+│   ├── Cache/
+│   │   ├── human_filtered_10/
+│   │   │   ├── scene_description_human_filtered_all_10_with_mean_similarity_score.csv  # mean_similarity_score here is the mean of first 5 subjects (used for human-human consistency)
+│   │   │   └── scene_description_human_filtered_all_10_mean_distance_mean_of_10.csv  # mean_similarity_score here is the mean of 10 subjects
+│   │   └── <model_run>/scored_descriptions_*.csv      # 19 VLM runs, one CSV each
+│   └── custom_runs/<model-name>/raw_descriptions.jsonl # raw generations of your own model (Src/custom_model)
 │
 ├── DATA/
 │   └── inpaint_image_processed/
@@ -71,6 +112,14 @@ to a single result in the paper:
 │   │   ├── plot_cache_vs_human_correlations.py        # stage 7c (Figure 5)
 │   │   ├── mask_animacy_person_labels.csv             # static input (hand labels)
 │   │   └── mask_max_gbvs.csv                          # static input (precomputed GBVS)
+│   ├── custom_model/                                  # evaluate your own model
+│   │   ├── prompt.py                                  # fixed scene-description prompt
+│   │   ├── backends.py                                # openai-compatible / hf / custom backends
+│   │   ├── generate_descriptions.py                   # step 1: HF dataset -> raw_descriptions.jsonl
+│   │   ├── score_descriptions.py                      # step 2: Jasper scoring -> scored_descriptions_*.csv
+│   │   ├── run_custom_model.sh                        # steps 1 + 2
+│   │   ├── eval_custom_model.sh                       # step 3: Top-1 Acc / Kendall-τ bars -> results/custom_model/
+│   │   └── requirements_custom.txt
 │   ├── eval_outputs/                                  # stage 1 outputs   (intermediate, regenerated)
 │   └── eval_output_tau/                               # stages 2-3 outputs (intermediate, regenerated)
 │
