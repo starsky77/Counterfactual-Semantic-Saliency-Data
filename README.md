@@ -153,7 +153,7 @@ to a single result in the paper:
 
 ```bibtex
 @article{wen2026revealing,
-  title={Revealing the Gap in Human and VLM Scene Perception through Counterfactual Semantic Saliency},
+  title={Revealing the Gap in Human and VLM Scene Description through Counterfactual Semantic Saliency},
   author={Wen, Ziqi and Madinei, Parsa and Eckstein, Miguel P},
   journal={arXiv preprint arXiv:2605.13047},
   year={2026}
